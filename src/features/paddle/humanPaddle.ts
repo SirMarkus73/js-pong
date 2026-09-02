@@ -1,3 +1,4 @@
+import type { GameInput } from "../game/gameInput"
 import type { GameState } from "../game/gameState"
 import type { GameBounds } from "../game/interfaces/gameBounds"
 import { Paddle } from "./interfaces/paddle"
@@ -7,13 +8,14 @@ export class HumanPaddle extends Paddle {
 
   public update(
     deltaTime: number,
-    gameState: GameState,
+    _gameState: GameState,
+    gameInput: GameInput,
     bounds: GameBounds,
   ): void {
-    if (gameState.input.keyboard.wPressed) {
+    if (gameInput.keyboard.w) {
       console.log(deltaTime)
       this.posY -= this.moveSensitivity * deltaTime
-    } else if (gameState.input.keyboard.sPressed) {
+    } else if (gameInput.keyboard.s) {
       this.posY += this.moveSensitivity * deltaTime
     }
 

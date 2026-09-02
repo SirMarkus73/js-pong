@@ -1,3 +1,4 @@
+import type { GameInput } from "#/features/game/gameInput"
 import type { GameState } from "#/features/game/gameState"
 import type { GameBounds } from "#/features/game/interfaces/gameBounds"
 import type { GameObject } from "#/features/game/interfaces/gameObject"
@@ -21,6 +22,7 @@ export abstract class Paddle implements GameObject {
   public abstract update(
     deltaTime: number,
     gameState: GameState,
+    gameInput: GameInput,
     bounds: GameBounds,
   ): void
 

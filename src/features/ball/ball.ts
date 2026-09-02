@@ -1,6 +1,7 @@
 import type { GameState } from "#/features/game/gameState.js"
 import type { GameBounds } from "#/features/game/interfaces/gameBounds"
 import type { GameObject } from "#/features/game/interfaces/gameObject.js"
+import type { GameInput } from "../game/gameInput"
 import type { Renderer } from "../renderer/interfaces/renderer"
 
 export class Ball implements GameObject {
@@ -31,6 +32,7 @@ export class Ball implements GameObject {
   public update(
     deltaTime: number,
     gameState: GameState,
+    _gameInput: GameInput,
     bounds: GameBounds,
   ): void {
     this.checkCollisions(bounds, gameState)
