@@ -32,7 +32,7 @@ export function runGame() {
   const gameState = new GameState(paddleLeft, paddleRight, ball)
 
   let lastTime = performance.now()
-  function gameLoop(time: DOMHighResTimeStamp = lastTime) {
+  function gameLoop(time: DOMHighResTimeStamp) {
     const deltaTime = (time - lastTime) / 1000
 
     lastTime = time
