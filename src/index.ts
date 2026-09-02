@@ -12,9 +12,6 @@ export function runGame() {
   const $canvas = document.querySelector<HTMLCanvasElement>("#game")
   if (!$canvas) throw new Error("Canvas element not found")
 
-  const ctx = $canvas.getContext("2d")
-  if (!ctx) throw new Error("Failed to get canvas context")
-
   const paddleLeft = new HumanPaddle(5, $canvas.height / 2 - 50, 20, 100)
   const paddleRight = new UnfairAIPaddle(
     $canvas.width - 20 - 5,
@@ -37,8 +34,6 @@ export function runGame() {
 
   let lastTime = performance.now()
   function draw(time: DOMHighResTimeStamp = lastTime) {
-    if (!$canvas || !ctx) return
-
     const deltaTime = (time - lastTime) / 1000
 
     lastTime = time
