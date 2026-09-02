@@ -1,6 +1,8 @@
 import { GameState } from "#/features/game/gameState.js"
 import { Ball } from "./features/ball/ball.js"
+import type { GameBounds } from "./features/game/interfaces/gameBounds.js"
 import { UnfairAIPaddle } from "./features/paddle/unfairAIPaddle.js"
+import { canvasRenderer } from "./features/renderer/canvasRenderer.js"
 
 export function runGame() {
   const $canvas = document.querySelector<HTMLCanvasElement>("#game")
@@ -18,6 +20,12 @@ export function runGame() {
   )
   const ball = new Ball(7, $canvas.width / 2 - 5, $canvas.height - 10, 100)
 
+  const renderer = new canvasRenderer($canvas)
+  const gameBounds: GameBounds = {
+    height: $canvas.height,
+    width: $canvas.width,
+  }
+
   const gameState = new GameState(paddleLeft, paddleRight, ball)
 
   let lastTime = performance.now()
@@ -28,11 +36,8 @@ export function runGame() {
 
     lastTime = time
 
-    gameState.update(deltaTime, {
-      height: $canvas?.height,
-      width: $canvas?.width,
-    })
-    gameState.draw(ctx)
+    gameState.update(deltaTime, gameBounds)
+    gameState.draw(renderer, gameBounds)
 
     window.requestAnimationFrame(draw)
   }

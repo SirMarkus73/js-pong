@@ -1,6 +1,7 @@
 import type { GameBounds } from "#/features/game/interfaces/gameBounds.js"
 import type { Ball } from "../ball/ball.js"
 import type { Paddle } from "../paddle/paddle.js"
+import type { Renderer } from "../renderer/interfaces/renderer.js"
 
 const GAME_STATUS = {
   PLAYING: "playing",
@@ -80,35 +81,53 @@ export class GameState {
     this.ball.reset()
   }
 
-  public draw(ctx: CanvasRenderingContext2D): void {
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+  public draw(r: Renderer, gameBounds: GameBounds): void {
+    r.clearScreen()
 
     if (this.state === GAME_STATUS.PLAYING) {
-      const centerX = ctx.canvas.width / 2
+      const centerX = gameBounds.width / 2
+      r.drawText(
+        `${this.score.left}`,
+        centerX - 20,
+        30,
+        "system-ui",
+        "20px",
+        "center",
+      )
 
-      ctx.font = "20px system-ui"
-      ctx.textAlign = "center"
+      r.drawText(
+        `${this.score.right}`,
+        centerX + 20,
+        30,
+        "system-ui",
+        "20px",
+        "center",
+      )
 
-      ctx.fillText(`${this.score.left}`, centerX - 20, 30)
-      ctx.fillText(`${this.score.right}`, centerX + 20, 30)
+      r.drawRectangle(centerX - 1, 0, 2, gameBounds.height, "#ffff")
 
-      ctx.fillRect(centerX - 1, 0, 2, ctx.canvas.height)
-
-      this.paddleLeft.draw(ctx)
-      this.paddleRight.draw(ctx)
-      this.ball.draw(ctx)
+      this.paddleLeft.draw(r)
+      this.paddleRight.draw(r)
+      this.ball.draw(r)
       return
     }
 
-    ctx.font = "40px System UI"
-    ctx.textAlign = "center"
-    ctx.fillText("GAME OVER", ctx.canvas.width / 2, ctx.canvas.height / 2)
+    r.drawText(
+      "GAME OVER",
+      gameBounds.width / 2,
+      gameBounds.height / 2,
+      "system-ui",
+      "20px",
+      "center",
+    )
 
-    ctx.font = "25px System UI"
-    ctx.fillText(
+    r.drawText(
       "Press SPACE or CLICK to restart the game",
-      ctx.canvas.width / 2,
-      ctx.canvas.height / 2 + 45,
+      gameBounds.width / 2,
+      gameBounds.height / 2 + 45,
+      "system-ui",
+      "25px",
+      "center",
     )
   }
 

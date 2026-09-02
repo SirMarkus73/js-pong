@@ -1,6 +1,7 @@
 import type { GameState } from "#/features/game/gameState.js"
 import type { GameBounds } from "#/features/game/interfaces/gameBounds"
 import type { GameObject } from "#/features/game/interfaces/gameObject.js"
+import type { Renderer } from "../renderer/interfaces/renderer"
 
 export class Ball implements GameObject {
   public posX: number
@@ -21,12 +22,8 @@ export class Ball implements GameObject {
     this.velocityY = -startingVelocity
   }
 
-  public draw(ctx: CanvasRenderingContext2D): void {
-    ctx.beginPath()
-    ctx.fillStyle = "#ffff"
-    ctx.arc(this.posX, this.posY, this.radius, 0, Math.PI * 2)
-    ctx.fill()
-    ctx.closePath()
+  public draw(renderer: Renderer): void {
+    renderer.drawCircle(this.posX, this.posY, this.radius, "#ffff")
 
     // TODO: Dibujar una estela para que quede mas bonito
   }
