@@ -1,4 +1,4 @@
-import type { GameBounds } from "../abc/interfaces/gameBounds.js"
+import type { GameBounds } from "#/features/game/interfaces/gameBounds.js"
 import type { Ball } from "../ball/ball.js"
 import type { Paddle } from "../paddle/paddle.js"
 

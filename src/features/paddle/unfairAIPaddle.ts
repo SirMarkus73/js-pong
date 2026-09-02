@@ -1,5 +1,5 @@
-import type { GameBounds } from "../abc/interfaces/gameBounds.js"
-import type { GameState } from "../gameState/gameState.js"
+import type { GameState } from "#/features/game/gameState.js"
+import type { GameBounds } from "#/features/game/interfaces/gameBounds.js"
 import { Paddle } from "./paddle.js"
 
 export class UnfairAIPaddle extends Paddle {

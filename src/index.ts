@@ -1,5 +1,5 @@
+import { GameState } from "#/features/game/gameState.js"
 import { Ball } from "./features/ball/ball.js"
-import { GameState } from "./features/gameState/gameState.js"
 import { UnfairAIPaddle } from "./features/paddle/unfairAIPaddle.js"
 
 export function runGame() {

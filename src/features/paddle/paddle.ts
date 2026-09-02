@@ -1,6 +1,6 @@
-import type { GameObject } from "../abc/gameObject.js"
-import type { GameBounds } from "../abc/interfaces/gameBounds.js"
-import type { GameState } from "../gameState/gameState.js"
+import type { GameState } from "#/features/game/gameState.js"
+import type { GameBounds } from "#/features/game/interfaces/gameBounds.js"
+import type { GameObject } from "#/features/game/interfaces/gameObject.js"
 
 export class Paddle implements GameObject {
   public posX: number
