@@ -1,6 +1,6 @@
 import type { Renderer } from "./interfaces/renderer"
 
-export class canvasRenderer implements Renderer {
+export class CanvasRenderer implements Renderer {
   private readonly ctx: CanvasRenderingContext2D
 
   constructor(private readonly canvas: HTMLCanvasElement) {
