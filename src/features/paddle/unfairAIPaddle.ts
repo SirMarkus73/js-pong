@@ -1,6 +1,6 @@
-import type { GameState } from "#/features/game/gameState.js"
-import type { GameBounds } from "#/features/game/interfaces/gameBounds.js"
-import { Paddle } from "./paddle.js"
+import type { GameState } from "#/features/game/gameState"
+import type { GameBounds } from "#/features/game/interfaces/gameBounds"
+import { Paddle } from "#/features/paddle/interfaces/paddle"
 
 export class UnfairAIPaddle extends Paddle {
   public update(

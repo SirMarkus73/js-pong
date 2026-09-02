@@ -1,6 +1,6 @@
 import type { GameBounds } from "#/features/game/interfaces/gameBounds.js"
+import type { Paddle } from "#/features/paddle/interfaces/paddle.js"
 import type { Ball } from "../ball/ball.js"
-import type { Paddle } from "../paddle/paddle.js"
 import type { Renderer } from "../renderer/interfaces/renderer.js"
 
 const GAME_STATUS = {
@@ -10,7 +10,11 @@ const GAME_STATUS = {
 
 type GameStatus = (typeof GAME_STATUS)[keyof typeof GAME_STATUS]
 type Input = {
-  spacePressed: boolean
+  keyboard: {
+    spacePressed: boolean
+    wPressed: boolean
+    sPressed: boolean
+  }
   leftClickPressed: boolean
 }
 
@@ -18,7 +22,7 @@ export class GameState {
   private _state: GameStatus
   public input: Input = {
     leftClickPressed: false,
-    spacePressed: false,
+    keyboard: { spacePressed: false, wPressed: false, sPressed: false },
   }
   public score = {
     left: 0,
@@ -36,14 +40,42 @@ export class GameState {
     this._state = GAME_STATUS.PLAYING
 
     document.addEventListener("keydown", (event) => {
-      if (event.key === " ") {
-        this.input.spacePressed = true
+      switch (event.key) {
+        case " ": {
+          this.input.keyboard.spacePressed = true
+          break
+        }
+
+        case "W":
+        case "w": {
+          this.input.keyboard.wPressed = true
+          break
+        }
+
+        case "S":
+        case "s": {
+          this.input.keyboard.sPressed = true
+        }
       }
     })
 
     document.addEventListener("keyup", (event) => {
-      if (event.key === " ") {
-        this.input.spacePressed = false
+      switch (event.key) {
+        case " ": {
+          this.input.keyboard.spacePressed = false
+          break
+        }
+
+        case "W":
+        case "w": {
+          this.input.keyboard.wPressed = false
+          break
+        }
+
+        case "S":
+        case "s": {
+          this.input.keyboard.sPressed = false
+        }
       }
     })
 
@@ -141,7 +173,7 @@ export class GameState {
 
     if (
       this.state === GAME_STATUS.GAME_OVER &&
-      (this.input.spacePressed || this.input.leftClickPressed)
+      (this.input.keyboard.spacePressed || this.input.leftClickPressed)
     ) {
       this.start()
     }

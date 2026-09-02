@@ -1,6 +1,7 @@
 import { GameState } from "#/features/game/gameState.js"
 import { Ball } from "./features/ball/ball.js"
 import type { GameBounds } from "./features/game/interfaces/gameBounds.js"
+import { HumanPaddle } from "./features/paddle/humanPaddle.js"
 import { UnfairAIPaddle } from "./features/paddle/unfairAIPaddle.js"
 import { canvasRenderer } from "./features/renderer/canvasRenderer.js"
 
@@ -11,7 +12,7 @@ export function runGame() {
   const ctx = $canvas.getContext("2d")
   if (!ctx) throw new Error("Failed to get canvas context")
 
-  const paddleLeft = new UnfairAIPaddle(5, $canvas.height / 2 - 50, 20, 100)
+  const paddleLeft = new HumanPaddle(5, $canvas.height / 2 - 50, 20, 100)
   const paddleRight = new UnfairAIPaddle(
     $canvas.width - 20 - 5,
     $canvas.height / 2 - 50,

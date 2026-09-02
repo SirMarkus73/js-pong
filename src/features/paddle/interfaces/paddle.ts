@@ -1,14 +1,14 @@
-import type { GameState } from "#/features/game/gameState.js"
-import type { GameBounds } from "#/features/game/interfaces/gameBounds.js"
-import type { GameObject } from "#/features/game/interfaces/gameObject.js"
-import type { Renderer } from "../renderer/interfaces/renderer"
+import type { GameState } from "#/features/game/gameState"
+import type { GameBounds } from "#/features/game/interfaces/gameBounds"
+import type { GameObject } from "#/features/game/interfaces/gameObject"
+import type { Renderer } from "#/features/renderer/interfaces/renderer"
 
-export class Paddle implements GameObject {
-  public posX: number
+export abstract class Paddle implements GameObject {
+  public readonly posX: number
   public posY: number
 
   constructor(
-    private readonly startingX: number,
+    startingX: number,
     private readonly startingY: number,
 
     public readonly width: number,
@@ -17,6 +17,12 @@ export class Paddle implements GameObject {
     this.posX = startingX
     this.posY = startingY
   }
+
+  public abstract update(
+    deltaTime: number,
+    gameState: GameState,
+    bounds: GameBounds,
+  ): void
 
   public draw(renderer: Renderer): void {
     renderer.drawRectangle(
@@ -28,14 +34,7 @@ export class Paddle implements GameObject {
     )
   }
 
-  public update(
-    _deltaTime: number,
-    _gameState: GameState,
-    _bounds: GameBounds,
-  ): void {}
-
   public reset(): void {
-    this.posX = this.startingX
     this.posY = this.startingY
   }
 

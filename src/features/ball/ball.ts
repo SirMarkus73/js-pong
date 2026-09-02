@@ -109,8 +109,8 @@ export class Ball implements GameObject {
   private isCollidingRightPaddle(gameState: GameState) {
     return (
       this.posX + this.radius >= gameState.paddleRight.posX &&
-      this.posY > gameState.paddleLeft.posY &&
-      this.posY < gameState.paddleLeft.posY + gameState.paddleLeft.height
+      this.posY > gameState.paddleRight.posY &&
+      this.posY < gameState.paddleRight.posY + gameState.paddleRight.height
     )
   }
 }
