@@ -1,5 +1,3 @@
-import type { GameInput } from "#/features/game/gameInput"
-import type { GameState } from "#/features/game/gameState"
 import type { Drawable } from "#/features/game/interfaces/drawable"
 import type { GameBounds } from "#/features/game/interfaces/gameBounds"
 import type { GameContext } from "#/features/game/interfaces/gameContext"
