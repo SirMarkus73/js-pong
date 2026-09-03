@@ -7,6 +7,7 @@ import { updateGame } from "./features/game/lib/updateGame.js"
 import { HumanPaddle } from "./features/paddle/humanPaddle.js"
 import { UnfairAIPaddle } from "./features/paddle/unfairAIPaddle.js"
 import { CanvasRenderer } from "./features/renderer/canvasRenderer.js"
+import { UI } from "./features/ui/ui.js"
 
 export function runGame() {
   const $canvas = document.querySelector<HTMLCanvasElement>("#game")
@@ -15,6 +16,7 @@ export function runGame() {
   const gameInput = new GameInput()
 
   const renderer = new CanvasRenderer($canvas)
+
   const gameBounds: GameBounds = {
     height: $canvas.height,
     width: $canvas.width,
@@ -28,8 +30,9 @@ export function runGame() {
     100,
   )
   const ball = new Ball(7, gameBounds.width / 2, gameBounds.height / 2, 100)
+  const ui = new UI()
 
-  const gameState = new GameState(paddleLeft, paddleRight, ball)
+  const gameState = new GameState(paddleLeft, paddleRight, ball, ui)
 
   let lastTime = performance.now()
   function gameLoop(time: DOMHighResTimeStamp) {
@@ -37,8 +40,17 @@ export function runGame() {
 
     lastTime = time
 
-    updateGame(deltaTime, gameState, gameInput, gameBounds)
-    drawGame(renderer, gameState, gameBounds)
+    updateGame(deltaTime, {
+      gameBounds,
+      gameInput,
+      gameState,
+    })
+
+    drawGame(renderer, {
+      gameBounds,
+      gameInput,
+      gameState,
+    })
 
     window.requestAnimationFrame(gameLoop)
   }

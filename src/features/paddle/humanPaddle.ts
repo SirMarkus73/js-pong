@@ -1,17 +1,12 @@
-import type { GameInput } from "../game/gameInput"
-import type { GameState } from "../game/gameState"
-import type { GameBounds } from "../game/interfaces/gameBounds"
+import type { GameContext } from "../game/interfaces/gameContext"
 import { Paddle } from "./interfaces/paddle"
 
 export class HumanPaddle extends Paddle {
   private moveSensitivity = 200
 
-  public update(
-    deltaTime: number,
-    _gameState: GameState,
-    gameInput: GameInput,
-    bounds: GameBounds,
-  ): void {
+  public update(deltaTime: number, context: GameContext): void {
+    const { gameInput, gameBounds } = context
+
     if (gameInput.keyboard.w) {
       console.log(deltaTime)
       this.posY -= this.moveSensitivity * deltaTime
@@ -19,6 +14,6 @@ export class HumanPaddle extends Paddle {
       this.posY += this.moveSensitivity * deltaTime
     }
 
-    this.clampToBounds(bounds)
+    this.clampToBounds(gameBounds)
   }
 }

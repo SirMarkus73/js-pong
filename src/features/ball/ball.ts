@@ -1,10 +1,12 @@
 import type { GameState } from "#/features/game/gameState.js"
 import type { GameBounds } from "#/features/game/interfaces/gameBounds"
-import type { GameObject } from "#/features/game/interfaces/gameObject.js"
-import type { GameInput } from "../game/gameInput"
+import type { Drawable } from "../game/interfaces/drawable"
+import type { GameContext } from "../game/interfaces/gameContext"
+import type { Resettable } from "../game/interfaces/resettable"
+import type { Updatable } from "../game/interfaces/updatable"
 import type { Renderer } from "../renderer/interfaces/renderer"
 
-export class Ball implements GameObject {
+export class Ball implements Resettable, Updatable, Drawable {
   public posX: number
   public posY: number
   private velocityX: number
@@ -29,13 +31,10 @@ export class Ball implements GameObject {
     // TODO: Dibujar una estela para que quede mas bonito
   }
 
-  public update(
-    deltaTime: number,
-    gameState: GameState,
-    _gameInput: GameInput,
-    bounds: GameBounds,
-  ): void {
-    this.checkCollisions(bounds, gameState)
+  public update(deltaTime: number, context: GameContext): void {
+    const { gameState, gameBounds } = context
+
+    this.checkCollisions(gameBounds, gameState)
     this.posX += this.velocityX * deltaTime
     this.posY += this.velocityY * deltaTime
   }
@@ -61,7 +60,8 @@ export class Ball implements GameObject {
     }
 
     if (this.isCollidingRightPaddle(gameState)) {
-      this.posX = gameState.paddleRight.posX - this.radius
+      const rightPaddle = gameState.sceneItems.playing.paddleRight
+      this.posX = rightPaddle.posX - this.radius
 
       this.velocityX = -this.velocityX
       gameState.score.right += 1
@@ -69,8 +69,8 @@ export class Ball implements GameObject {
     }
 
     if (this.isCollidingLeftPaddle(gameState)) {
-      this.posX =
-        gameState.paddleLeft.posX + gameState.paddleLeft.width + this.radius
+      const leftPaddle = gameState.sceneItems.playing.paddleLeft
+      this.posX = leftPaddle.posX + leftPaddle.width + this.radius
 
       this.velocityX = -this.velocityX
       gameState.score.left += 1
@@ -100,19 +100,22 @@ export class Ball implements GameObject {
   }
 
   private isCollidingLeftPaddle(gameState: GameState) {
+    const leftPaddle = gameState.sceneItems.playing.paddleLeft
+
     return (
-      this.posX - this.radius <=
-        gameState.paddleLeft.posX + gameState.paddleLeft.width &&
-      this.posY > gameState.paddleLeft.posY &&
-      this.posY < gameState.paddleLeft.posY + gameState.paddleLeft.height
+      this.posX - this.radius <= leftPaddle.posX + leftPaddle.width &&
+      this.posY > leftPaddle.posY &&
+      this.posY < leftPaddle.posY + leftPaddle.height
     )
   }
 
   private isCollidingRightPaddle(gameState: GameState) {
+    const rightPaddle = gameState.sceneItems.playing.paddleRight
+
     return (
-      this.posX + this.radius >= gameState.paddleRight.posX &&
-      this.posY > gameState.paddleRight.posY &&
-      this.posY < gameState.paddleRight.posY + gameState.paddleRight.height
+      this.posX + this.radius >= rightPaddle.posX &&
+      this.posY > rightPaddle.posY &&
+      this.posY < rightPaddle.posY + rightPaddle.height
     )
   }
 }

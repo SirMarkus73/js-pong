@@ -1,26 +1,13 @@
-import type { GameInput } from "../gameInput"
-import { GAME_STATUS, type GameState } from "../gameState"
-import type { GameBounds } from "../interfaces/gameBounds"
+import type { GameContext } from "../interfaces/gameContext"
 
-export function updateGame(
-  deltaTime: number,
-  gameState: GameState,
-  gameInput: GameInput,
-  bounds: GameBounds,
-): void {
-  if (gameState.state === GAME_STATUS.PLAYING) {
-    gameState.paddleLeft.update(deltaTime, gameState, gameInput, bounds)
-    gameState.paddleRight.update(deltaTime, gameState, gameInput, bounds)
-    gameState.ball.update(deltaTime, gameState, gameInput, bounds)
-    return
-  }
+export function updateGame(deltaTime: number, gameContext: GameContext): void {
+  const { gameState } = gameContext
 
-  if (
-    gameState.state === GAME_STATUS.GAME_OVER &&
-    (gameInput.keyboard.space ||
-      gameInput.pointer.left ||
-      gameInput.pointer.right)
-  ) {
-    gameState.start()
+  const sceneItems = gameState.sceneItems[gameState.state]
+
+  for (const item of Object.values(sceneItems)) {
+    if ("update" in item) {
+      item.update(deltaTime, gameContext)
+    }
   }
 }

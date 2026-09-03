@@ -1,28 +1,34 @@
 import type { Paddle } from "#/features/paddle/interfaces/paddle.js"
 import type { Ball } from "../ball/ball.js"
+import type { UI } from "../ui/ui.js"
 
 export const GAME_STATUS = {
   PLAYING: "playing",
   GAME_OVER: "gameOver",
 } as const
 
-type GameStatus = (typeof GAME_STATUS)[keyof typeof GAME_STATUS]
+export type GameStatus = (typeof GAME_STATUS)[keyof typeof GAME_STATUS]
 
 export class GameState {
+  public readonly sceneItems
+
   private _state: GameStatus
   public score = {
     left: 0,
     right: 0,
   }
 
-  constructor(
-    public paddleLeft: Paddle,
-    public paddleRight: Paddle,
-    public ball: Ball,
-  ) {
-    this.paddleLeft = paddleLeft
-    this.paddleRight = paddleRight
-    this.ball = ball
+  constructor(paddleLeft: Paddle, paddleRight: Paddle, ball: Ball, ui: UI) {
+    this.sceneItems = {
+      [GAME_STATUS.GAME_OVER]: { ui },
+      [GAME_STATUS.PLAYING]: {
+        ui,
+        paddleLeft,
+        paddleRight,
+        ball,
+      },
+    }
+
     this._state = GAME_STATUS.PLAYING
   }
 
@@ -43,6 +49,8 @@ export class GameState {
     this.score.left = 0
     this.score.right = 0
 
-    this.ball.reset()
+    this.sceneItems.playing.paddleLeft.reset()
+    this.sceneItems.playing.paddleRight.reset()
+    this.sceneItems.playing.ball.reset()
   }
 }
